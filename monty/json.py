@@ -211,15 +211,13 @@ class MSONable:
         """
         pydantic Validator for MSONable pattern
         """
+        print("validating", type(v))
         if isinstance(v, cls):
             return v
         if isinstance(v, dict):
-            new_obj = MontyDecoder().process_decoded(v)
-            if isinstance(new_obj, cls):
-                return new_obj
-
-            new_obj = cls(**v)
-            return new_obj
+            if ("@class" in v) and (v["@class"] == cls.__name__) \
+                    and ("@module" in v) and (v["@module"]==cls.__module__):
+                return v
 
         raise ValueError(f"Must provide {cls.__name__}, the as_dict form, or the proper")
 
