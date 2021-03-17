@@ -211,7 +211,6 @@ class MSONable:
         """
         pydantic Validator for MSONable pattern
         """
-        print("validating", type(v))
         if isinstance(v, cls):
             return v
         if isinstance(v, dict):
